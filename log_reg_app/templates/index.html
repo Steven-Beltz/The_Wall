@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <p>- {{message}} -</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div>
+        <h1>Register:</h1>
+        <form action="/register" method="POST">
+            {% csrf_token %}
+            First Name: <input type="text" name="fname">
+            Last Name: <input type="text" name="lname">
+            Email: <input type="text" name="email">
+            Password: <input type='password' name="pw">
+            Confirm PW: <input type="password" name="confpw">
+            <input type="submit" value="Create User">
+        </form>
+    </div>
+    <div>
+        <form action="/login" method="POST">
+            {% csrf_token %}
+            Email: <input type="text" name="email">
+            Password: <input type="password" name="pw">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+</html>

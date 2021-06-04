@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success!</title>
+</head>
+<body>
+    <div>
+        <a href="/logout">Logout</a>
+        <h1>Welcome to {{request.session.user}}'s Wall!</h1>
+
+        <div>
+            <h2>Write a Post:</h2>
+            <form action="/process_message" method="POST">
+                {% csrf_token %}
+                <input type="text" name="mess">
+                <input type="submit" value="Post">
+            </form>
+        </div>
+        <div>
+            {% for post in wall_messages %}
+                <div>
+                    <p>{{post.message}}</p>
+                    <p>By: <a href="/user_profile/{{post.poster.id}}">{{post.poster.first_name}} {{post.poster.last_name}}</a></p>
+                    <a href="/like/{{post.id}}">Like Post</a>
+                    <p>{{ post.user_likes.count }}</p>
+                    <form action="/add_comment/{{post.id}}" method="POST">
+                        {% csrf_token %}
+                        Comment: <input type="text" name="comment">
+                        <input type="submit" value="Submit">
+                    </form>
+                    {% for comment in post.post_comments.all %}
+                        <p>{{ comment.comment }}</p>
+                        <p>poster: {{ comment.poster.first_name }} {{ comment.poster.last_name }}</p>
+                        <a href="/delete/{{comment.id}}">Delete</a>
+                        {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
